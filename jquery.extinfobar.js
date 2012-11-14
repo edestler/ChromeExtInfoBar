@@ -75,16 +75,20 @@
         top: (open ? '+' : '-') + '=' + height
     });
  }, buildInfoBar = function (opts, height) {
-     var bar = $("<div/>").css({'background-image': '-webkit-linear-gradient(bottom, rgb(179,203,231) 0%, rgb(222,234,248) 100%)', 'font-family': 'Tahoma, sans-serif', 'font-size': 14, color: '#333', 'border-bottom': '1.5px solid #b6bac0', height: height, position: 'fixed', left: 0, top: -height + 'px', width: '100%', 'z-index': 2000}),
-         icon = $("<img/>").attr('src', opts.icon).css({padding: '8px 9px 9px 10px', float: 'left'}).attr({width: 20, height: 20}),
+     var bar     = $("<div/>").css({'background-image': '-webkit-linear-gradient(bottom, rgb(179,203,231) 0%, rgb(222,234,248) 100%)', 'font-family': 'Tahoma, sans-serif', 'font-size': 14, color: '#333', 'border-bottom': '1.5px solid #b6bac0', height: height, position: 'fixed', left: 0, top: -height + 'px', width: '100%', 'z-index': 2000}),
+         icon    = $("<img/>").attr('src', opts.icon).css({padding: '8px 9px 9px 10px', float: 'left'}).attr({width: 20, height: 20}),
          barText = $("<span/>").css({padding: '9px 10px 10px 4px', float: 'left'}).html(opts.message),
-         button = $("<button/>").css({'background-image': BUTTON, '-webkit-border-radius' : '4px', border: BUTTONBORDER, float: 'right', margin: '6px', padding: '3px 8px 3px 9px', color: '#333'}).html('Install'),
-         close = $("<img/>").attr('src', CLOSE).css({float: 'right', 'padding-right': 9, 'padding-top': 13, 'margin-left' : 10});
+         button  = $("<button/>").css({'background-image': BUTTON, '-webkit-border-radius' : '4px', border: BUTTONBORDER, float: opts.buttonFloat, margin: '6px', padding: '3px 8px 3px 9px', color: '#333'}).html('Install'),
+         link    = $("<a/>").css({float: 'right', margin: '9px 0 11px 10px', 'text-decoration': 'underline', color: '#364f88', 'font-size': '1em'}).html('Learn more').attr('href', getExtensionUrl(opts.id)).attr('target', '_blank'),
+         close   = $("<img/>").attr('src', CLOSE).css({float: 'right', 'padding-right': 9, 'padding-top': 13, 'margin-left' : 10});
 
      bar.append(icon);
      bar.append(barText);
      bar.append(close);
      bar.append(button);
+     if (opts.showLink) {
+         bar.append(link);
+     }
 
      close.click(function () {
         animate(bar, height);
@@ -159,7 +163,9 @@
     rememberClose: true,
     rememberRedirect: false,
     daysToWait: 7,
-    attempts: 3
+    attempts: 3,
+    buttonFloat: 'left',
+    showLink: true
  };
 }(jQuery));
 
