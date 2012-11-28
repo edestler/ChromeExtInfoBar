@@ -70,7 +70,12 @@
         }
     }
 
- }, animate = function (bar, height, open) {
+ }, animate = function (bar, height, open, opts) {
+    if (open && opts.onShow) {
+        opts.onShow();
+    } else if (opts.onHide) {
+        opts.onHide();
+    }
     bar.animate({
         top: (open ? '+' : '-') + '=' + height
     });
@@ -91,7 +96,7 @@
      }
 
      close.click(function () {
-        animate(bar, height);
+        animate(bar, height, 0, opts);
         opts.rememberClose && saveAction('close');
      }).hover(function () {
          $(this).attr('src', CLOSE_HOVER);
@@ -102,7 +107,7 @@
 
      button.click(function () {
         chrome.webstore.install(getExtensionUrl(opts.id), function () {
-            animate(bar, height);
+            animate(bar, height, 0, opts);
             saveAction('install');
         },
         function (error) {
@@ -150,7 +155,7 @@
 
                 addLink(opts.id);
                 $("body").append(infoBar);
-                animate(infoBar, HEIGHT, 1);
+                animate(infoBar, HEIGHT, 1, opts);
             }
         );
     });
